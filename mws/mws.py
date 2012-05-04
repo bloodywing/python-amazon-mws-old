@@ -254,6 +254,22 @@ class Reports(MWS):
         data.update(self.enumerate_param('ReportProcessingStatusList.Status.', processingstatuses))
         return self.make_request(data)
 
+    def get_report_list(self, requestids=(), max_count=None, types=(), acknowledged=None, 
+                        fromdate=None, todate=None):
+        data = dict(Action='GetReportList',
+                    Acknowledged=acknowledged,
+                    AvailableFromDate=fromdate,
+                    AvailableToDate=todate,
+                    MaxCount=max_count)
+        data.update(self.enumerate_param('ReportRequestIdList.Id.', requestids))
+        data.update(self.enumerate_param('ReportTypeList.Type.', types))
+        return self.make_request(data)
+    
+    def get_report_schedule_list(self, types=()):
+        data = dict(Action='GetReportScheduleList')
+        data.update(self.enumerate_param('ReportTypeList.Type.', types))
+        return self.make_request(data)
+
     def get_report_count(self, report_types=(), acknowledged=None, fromdate=None, todate=None):
         data = dict(Action='GetReportCount',
                     Acknowledged=acknowledged,
